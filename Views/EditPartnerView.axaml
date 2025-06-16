@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DemoApp.Views.EditPartnerView"
+             xmlns:vm="using:DemoApp.ViewModels"
+            x:DataType="vm:EditPartnerViewModel">
+<Grid Margin="20">
+    <StackPanel Spacing="10">
+      <TextBlock Text="Редактирование партнера" FontSize="24" FontWeight="Bold" />
+      <TextBlock Text="{Binding ErrorMessage}"
+                     Foreground="Red"
+                     IsVisible="{Binding ErrorMessage, Converter={x:Static ObjectConverters.IsNotNull}}"
+                     TextWrapping="Wrap"/>
+<Grid ColumnDefinitions="150,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Название:" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PartnerName}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="ИНН:" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PartnerInn}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Директор:" />
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Director}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Телефон:" />
+        <MaskedTextBox Grid.Row="3" Grid.Column="1" Text="{Binding DirectorPhone}"
+          Mask="+7 (000) 000 0000" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Email:" />
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding DirectorMail}"
+          Watermark="example@domain.com" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Рейтинг:" />
+        <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding PartnerRating}"
+          Minimum="0" Maximum="100" />
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Тип партнера:" />
+        <ComboBox Grid.Row="6" Grid.Column="1"
+          ItemsSource="{Binding PartnerTypes}"
+          SelectedValue="{Binding SelectedPartnerType}"
+          SelectedValueBinding="{Binding PartnerTypeId}"
+          DisplayMemberBinding="{Binding PartnerTypeName}" />
+      </Grid>
+<StackPanel Orientation="Horizontal" Spacing="10">
+        <Button Content="Сохранить" Command="{Binding SaveCommand}" />
+        <Button Content="Отмена" Command="{Binding CancelCommand}" />
+      </StackPanel>
+
+    </StackPanel>
+  </Grid>
+
+</UserControl>

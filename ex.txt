@@ -1,0 +1,84 @@
+добавление процесса в автозапуск
+
+На основе предоставленного изображения, я создам -скрипт для создания базы данных dipLom и трех таблиц: files, folders и users.
+
+
+-- Создание базы данных
+CREATE DATABASE IF NOT EXISTS dipLom;
+USE dipLom;
+
+-- Создание таблицы users
+CREATE TABLE IF NOT EXISTS users (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(30),
+    password VARCHAR(127),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Создание таблицы folders
+CREATE TABLE IF NOT EXISTS folders (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    user_id INT(11) NOT NULL,
+    parent_id INT(11),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (parent_id) REFERENCES folders(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Создание таблицы files
+CREATE TABLE IF NOT EXISTS files (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    size INT(11) NOT NULL,
+    type VARCHAR(100) NOT NULL,
+    user_id INT(11) NOT NULL,
+    parent_id INT(11),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (parent_id) REFERENCES folders(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+Примечания:
+Я добавил внешние ключи (FOREIGN KEY) для связей между таблицами:
+user_id в таблицах files и folders ссылается на id в таблице users
+parent_id в таблице folders ссылается на id в той же таблице (для вложенных папок)
+parent_id в таблице files ссылается на id в таблице folders (чтобы показать, в какой папке находится файл)
+Я использовал ENGINE=InnoDB как наиболее подходящий для реляционных таблиц с внешними ключами.
+Кодировка utf8mb4 позволяет хранить все Unicode-символы, включая эмодзи.
+Обратите внимание, что в исходном изображении была опечатка при попытке описать таблицу suers (вместо users).
+
+goto https://code.visualstudio.com/docs/?dv=linux64_deb
+sudo apt install ./.deb
+extensions:
+1. avalonia for vs
+2. avalonia templates
+3. c# extensions
+4. c# dev kit
+
+
+dotnet add package Avalonia.Xaml.Behaviors --version 11.2.0.14
+dotnet add package MessageBox.Avalonia --version 3.2.0
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.3
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.3
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.3
+dotnet add package Avalonia.ReactiveUI --version 11.2.6
+
+dotnet ef dbcontext scaffold "DataSource=localhost;Port=3050;Database=/db/demo.fdb;Username=sysdba;Password=7827940" FirebirdSql.EntityFrameworkCore.Firebird -o Entities -f
+--------------------------install----------------------------\
+nuget.org													 |
+search 'tools' -> versions -> 9.0.3							 |
+terminal -> command											 |
+															 |
+search 'design' -> versions -> 9.0.3						 |
+terminal -> command											 |
+															 |
+search 'firebird' -> entityFrameworkCore -> versions -> 9.0.3|
+terminal -> command											 |
+-------------------------------------------------------------/
+																	  /path/to/db.fdb
+dotnet ef dbcontext scaffold "DataSource=localhost;Port=3050;Database=/db/demo.fdb;Username=sysdba;Password=1234" FirebirdSql.EntityFrameworkCore.Firebird -o Entities -f
+
+

@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DemoApp.Views.PartnersView"
+             xmlns:vm="using:DemoApp.ViewModels"
+  x:DataType="vm:PartnersViewModel">
+    <Grid Margin="20">
+    <StackPanel Spacing="10">
+      <TextBlock Text="Список партнеров" FontSize="24" FontWeight="Bold" />
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <Button Content="Добавить партнера" Command="{Binding AddPartnerCommand}" />
+        <Button Content="Редактировать" Command="{Binding EditPartnerCommand}" />
+      </StackPanel>
+      <ListBox ItemsSource="{Binding Partners}" SelectedItem="{Binding SelectedPartner}"
+        MaxHeight="800">
+        <Interaction.Behaviors>
+          <EventTriggerBehavior EventName="SelectionChanged">
+            <InvokeCommandAction Command="{Binding EditPartnerCommand}" CommandParameter="{Binding SelectedPartner}"/>
+            </EventTriggerBehavior>
+          </Interaction.Behaviors>
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left">
+              <StackPanel Orientation="Vertical" Margin="5" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                  <TextBlock Text="{Binding PartnerTypeDescription}" TextWrapping="Wrap" />
+                  <TextBlock Text=" |  " TextWrapping="Wrap" />
+                  <TextBlock Text="{Binding _partner.PartnerName}" TextWrapping="Wrap" Width="250" />
+                </StackPanel>
+                <TextBlock Text="{Binding _partner.Director}" TextWrapping="Wrap" Width="250" HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding _partner.DirectorPhone}" TextWrapping="Wrap" Width="250" HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding RatingDisplay}" TextWrapping="Wrap" Width="250" HorizontalAlignment="Left" />
+              </StackPanel>
+              <StackPanel Orientation="Vertical" Spacing="10">
+                <TextBlock Text="{Binding DiscountDisplay}" TextWrapping="Wrap" Width="150" />
+                <Button Content="История продаж" />
+              </StackPanel>
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+
+
+    </StackPanel>
+  </Grid>
+
+</UserControl>
